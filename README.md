@@ -15,11 +15,11 @@ Things to consider:
 Just call sh buildRun.sh to automatically translate and run the program.
 This will result in the following script beeing executed:
 
-``
+```bash
 #!/bin/sh
 
 cd ./src/implement/
 g++ main.cpp TemperaturGrabber.cpp Logger.cpp -o ../../bin/TempGrabber
 cd ../../
 ./bin/TempGrabber
-``
+```
