@@ -1,11 +1,8 @@
-// io/read-file-sum.cpp - Read integers from file and print sum.
-// Fred Swartz 2003-08-20
-
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "TemperaturGrabber.hpp"
-#include "Logger.hpp"
+#include "../header/TemperaturGrabber.hpp"
+#include "../header/Logger.hpp"
 
 using namespace std;
 using temp::TemperaturGrabber;
