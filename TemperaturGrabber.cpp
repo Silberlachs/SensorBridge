@@ -2,35 +2,47 @@
 #include <fstream>
 #include <iostream>
 #include <cstdio>
-#include <sys/stat.h>
 #include <string>
 
+using namespace std;
+
 namespace temp{
-    TemperaturGrabber::TemperaturGrabber(std::string path)
+
+
+/*  At creation time, check how many cooling devices are found
+    and read a sample value from them to initialize data structure
+    TODO: currently ubuntu assumed                                      */
+    TemperaturGrabber::TemperaturGrabber(string path)
     {
         this->path = path;
-        struct stat sb;
-
-        fprintf(stdout, "checking for Temperature Sensors...\n");
-
-        //DEBUG: is folder available?
-        //fprintf(stdout,"string is %d", stat((path + std::__cxx11::to_string(0) + (std::string)"/").c_str() , &sb) );
-
-        if (stat((path + std::__cxx11::to_string(0) + (std::string)"/").c_str() , &sb) == 0)
+        while(true)
         {
-            fprintf(stdout,"welp"); // folder found -> save path to array
-            // sys/class/thermal/thermal_zone0/temp
-            // sys/class/thermal/thermal_zone0/type
-        }
 
-        if(checkFileAvailable())
-        {
-            fprintf(stdout, "sensors available!");
+            if (isFileAvailable())
+            {
+                string myText, myText1;
+                string zoneStr = (path + to_string(sensorCount) + (string)"/").c_str();
+
+                ifstream MyFile(zoneStr + "/temp");
+                ifstream MyFile1(zoneStr + "/type");
+
+                getline (MyFile, myText);
+                getline (MyFile1, myText1);
+                cout << myText << endl;
+                cout << myText1 << endl;
+
+                MyFile.close();
+            }
+            else
+            {
+                break;
+            }
+            sensorCount++;
         }
     }
 
-    int TemperaturGrabber::checkFileAvailable()
+    bool TemperaturGrabber::isFileAvailable()
     {
-        return 1;
+        return (stat((path + to_string(sensorCount) + (string)"/").c_str() , &sb) == 0);
     }
 }

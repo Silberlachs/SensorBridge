@@ -17,7 +17,6 @@ int main() {
 
     TemperaturGrabber* temp = new TemperaturGrabber("/sys/class/thermal/thermal_zone");
     Logger* logger = Logger::getInstance();
-    logger->logToFile("this is a triumph");
 
     // 1: probe how many underfolders under thermal_zone are
     // 2: read temp and type files of each
@@ -27,7 +26,7 @@ int main() {
     ifstream inFile;
     inFile.open("/sys/class/thermal/thermal_zone0/temp");
     if (!inFile) {
-        cout << "Unable to open file";
+        logger->logToFile("Unable to open file");
         exit(1); // terminate with error
     }
 
