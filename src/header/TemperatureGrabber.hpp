@@ -10,9 +10,9 @@ using namespace std;
 namespace temp{
     class TemperatureGrabber
     {
-        std::string path;
         private:
             bool isFileAvailable();
+            string path;
             int sensorCount = 0;            // number of loops through folder
             vector<Sensor*> sensors;
             struct stat sb;

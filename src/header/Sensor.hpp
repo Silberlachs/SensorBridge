@@ -8,13 +8,14 @@ namespace temp{
     class Sensor
     {
         public:
-            Sensor(string);
+            Sensor(string, string);
             void updateTemperature(int);
             int getTemperature(void);
             string getName(void);
+            string getPath(void);
 
         private: 
-            string name;
+            string name, path;
             int temperature;
     };
 }

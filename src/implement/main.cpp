@@ -15,15 +15,15 @@ int main() {
     TemperatureGrabber* temp = new TemperatureGrabber("/sys/class/thermal/thermal_zone");
     Logger* logger = Logger::getInstance();
 
-    // 1: probe how many underfolders under thermal_zone are
-    // 2: read temp and type files of each
+    // 1: probe how many underfolders under thermal_zone are    [DONE]
+    // 2: read temp and type files of each                      [DONE]
     // 3: output data to display RPI
     // 4: create a custom font
 
     ifstream inFile;
     inFile.open("/sys/class/thermal/thermal_zone0/temp");
     if (!inFile) {
-        logger->logToFile("Unable to open file");
+        logger->logToFile("Unable to open default thermal_zone file. Is this Ubuntu?");
         exit(1); // terminate with error
     }
 

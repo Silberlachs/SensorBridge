@@ -11,13 +11,13 @@ namespace temp{
 
 /*  At creation time, check how many cooling devices are found
     and read a sample value from them to initialize data structure
-    TODO: currently ubuntu assumed                                      */
+    To do so, simply loop through temperature_zone indices until -1
+    TODO: currently OS assumed: ubuntu                              */
     TemperatureGrabber::TemperatureGrabber(string path)
     {
         this->path = path;
         while(true)
         {
-
             if (isFileAvailable())
             {
                 string heat, heatname;
@@ -29,7 +29,7 @@ namespace temp{
                 getline (HeatFile, heat);
                 getline (HeatNameFile, heatname);
 
-                Sensor *sensor = new Sensor(heatname);
+                Sensor *sensor = new Sensor(heatname, zoneStr);
                 sensor->updateTemperature(stoi(heat));
                 sensors.push_back(sensor);
 
@@ -48,6 +48,7 @@ namespace temp{
         }
     }
 
+    /* checks whether file with temperature information is available */
     bool TemperatureGrabber::isFileAvailable()
     {
         return (stat((path + to_string(sensorCount) + (string)"/").c_str() , &sb) == 0);
