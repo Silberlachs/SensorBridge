@@ -2,20 +2,23 @@
 #define TEMPERATURGRABBER_HPP
 #include <string>
 #include <vector>
+#include <variant>
 #include <sys/stat.h>
+#include "Sensor.hpp"
+using namespace std;
 
 namespace temp{
-    class TemperaturGrabber
+    class TemperatureGrabber
     {
         std::string path;
         private:
             bool isFileAvailable();
             int sensorCount = 0;            // number of loops through folder
-            std::vector<int[2]> myVector();
+            vector<Sensor*> sensors;
             struct stat sb;
 
         public:
-            TemperaturGrabber(std::string);
+            TemperatureGrabber(std::string);
     };
 }
 #endif

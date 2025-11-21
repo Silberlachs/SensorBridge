@@ -1,0 +1,55 @@
+#include "../header/TemperatureGrabber.hpp"
+#include "../header/Sensor.hpp"
+#include <fstream>
+#include <iostream>
+#include <cstdio>
+#include <string>
+
+using namespace std;
+
+namespace temp{
+
+/*  At creation time, check how many cooling devices are found
+    and read a sample value from them to initialize data structure
+    TODO: currently ubuntu assumed                                      */
+    TemperatureGrabber::TemperatureGrabber(string path)
+    {
+        this->path = path;
+        while(true)
+        {
+
+            if (isFileAvailable())
+            {
+                string heat, heatname;
+                string zoneStr = (path + to_string(sensorCount) + (string)"/").c_str();
+
+                ifstream HeatFile(zoneStr + "/temp");
+                ifstream HeatNameFile(zoneStr + "/type");
+
+                getline (HeatFile, heat);
+                getline (HeatNameFile, heatname);
+
+                Sensor *sensor = new Sensor(heatname);
+                sensor->updateTemperature(stoi(heat));
+                sensors.push_back(sensor);
+
+                HeatFile.close();
+                HeatNameFile.close();
+            }
+            else
+            {
+                break;
+            }
+            sensorCount++;
+        }
+        for(int l=0; l< sensors.size(); l++)
+        {
+            fprintf(stdout,"%s: %dC°\n",sensors[l]->getName().c_str(),sensors[l]->getTemperature()/1000);
+        }
+    }
+
+    bool TemperatureGrabber::isFileAvailable()
+    {
+        return (stat((path + to_string(sensorCount) + (string)"/").c_str() , &sb) == 0);
+    }
+}

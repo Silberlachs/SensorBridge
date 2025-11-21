@@ -1,6 +1,6 @@
 #!/bin/sh
 
 cd ./src/implement/
-g++ main.cpp TemperaturGrabber.cpp Logger.cpp -o ../../bin/TempGrabber
+g++ main.cpp TemperatureGrabber.cpp Logger.cpp Sensor.cpp -o ../../bin/TempGrabber
 cd ../../
 ./bin/TempGrabber

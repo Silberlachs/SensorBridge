@@ -1,18 +1,18 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "../header/TemperaturGrabber.hpp"
+#include "../header/TemperatureGrabber.hpp"
 #include "../header/Logger.hpp"
 
 using namespace std;
-using temp::TemperaturGrabber;
+using temp::TemperatureGrabber;
 using logging::Logger;
 
 Logger* Logger::instance = nullptr;
 
 int main() {
 
-    TemperaturGrabber* temp = new TemperaturGrabber("/sys/class/thermal/thermal_zone");
+    TemperatureGrabber* temp = new TemperatureGrabber("/sys/class/thermal/thermal_zone");
     Logger* logger = Logger::getInstance();
 
     // 1: probe how many underfolders under thermal_zone are
