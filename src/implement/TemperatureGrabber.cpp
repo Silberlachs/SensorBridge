@@ -42,15 +42,36 @@ namespace temp{
             }
             sensorCount++;
         }
-        for(int l=0; l< sensors.size(); l++)
+     /* for(int l=0; l< sensors.size(); l++)
         {
             fprintf(stdout,"%s: %dC°\n",sensors[l]->getName().c_str(),sensors[l]->getTemperature()/1000);
-        }
+        }*/
     }
 
     /* checks whether file with temperature information is available */
     bool TemperatureGrabber::isFileAvailable()
     {
         return (stat((path + to_string(sensorCount) + (string)"/").c_str() , &sb) == 0);
+    }
+
+    string TemperatureGrabber::getSensoryDataInit()
+    {
+        string payload;
+        for(int l=0; l< sensors.size(); l++)
+        {
+            payload = payload + sensors[l]->getName() + "#" + to_string(sensors[l]->getTemperature()/1000) + "#";
+            //fprintf(stdout,"%s: %dC°\n",sensors[l]->getName().c_str(),sensors[l]->getTemperature()/1000);
+        }
+        return payload;
+    }
+
+    string TemperatureGrabber::getSensoryData()
+    {
+        string payload;
+        for(int l=0; l< sensors.size(); l++)
+        {
+            payload = payload + to_string(sensors[l]->getTemperature()/1000) + "#";
+        }
+        return payload;
     }
 }

@@ -19,6 +19,8 @@ namespace temp{
 
         public:
             TemperatureGrabber(std::string);
+            string getSensoryDataInit(void);
+            string getSensoryData(void);
     };
 }
 #endif
