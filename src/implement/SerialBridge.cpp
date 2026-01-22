@@ -12,21 +12,23 @@ namespace serial{
         this->deviceName = deviceName;
     }
 
-    int SerialBridge::openConnection()  //TODO: add arguments for init, salt
+    void SerialBridge::setSecret(int secretNum)
+    {
+        this->secretNum = secretNum;
+    }
+
+    int SerialBridge::openConnection()
     {
         picoConnection.open("/dev/ttyACM0");
-        picoConnection << "#1910#1\n";        //don't forget \n symbol!!!
+        picoConnection << "1910#" << std::to_string(this->secretNum) << "\n";
         picoConnection.flush();
-        //picoConnection.close();
 
         return 0;
     }
 
     void SerialBridge::sendData(string message)
     {
-        //picoConnection.open("/dev/ttyACM0");
-        picoConnection << message + "\n";        //don't forget \n symbol!!!
+        picoConnection << std::to_string(1910 + this->secretNum) << "#" << message + "\n";
         picoConnection.flush();
-        //picoConnection.close();
     }
 }

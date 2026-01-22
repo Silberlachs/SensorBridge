@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <unistd.h>
@@ -7,42 +8,21 @@
 #include "../header/TemperatureGrabber.hpp"
 #include "../header/Logger.hpp"
 #include "../header/SerialBridge.hpp"
+#include "../header/MemoryGrabber.hpp"
 
 using namespace std;
 using temp::TemperatureGrabber;
 using logging::Logger;
 using serial::SerialBridge;
+using mem::MemoryGrabber;
 
 Logger* Logger::instance = nullptr;
 
-
-string getMemoryInfo(void)
-{
-    string tmp,memory;
-    memory = "";
-
-    try{
-        system("cat /proc/meminfo | grep -E 'MemTotal|MemAvailable' > tmp.txt");
-        ifstream in("tmp.txt");	
-
-        getline(in,tmp);
-        memory = tmp;
-        getline(in,tmp);
-        memory += "#";
-        memory += tmp;
-        in.close();
-    }
-    catch(const std::exception& e){
-        std::cerr << e.what() << '\n';      //use logger here
-    }
-
-
-    return memory;
-}
-
 int main() {
 
+    //TODO: write some automated tests (will be necessary to pass some mock objects )
     TemperatureGrabber* temp = new TemperatureGrabber("/sys/class/thermal/thermal_zone");
+    MemoryGrabber* mem = new MemoryGrabber();
     Logger* logger = Logger::getInstance();
 
     ifstream inFile;
@@ -53,11 +33,15 @@ int main() {
     }
 
     SerialBridge* serialBridge = new SerialBridge("/dev/ttyACM0");
+    serialBridge->setSecret(1337);
     serialBridge->openConnection();
-    serialBridge->sendData("1911"); //implement protocoll
+    serialBridge->sendData("initializing"); //implement protocoll
     string payload = temp->getSensoryDataInit();
 
-    payload += getMemoryInfo();
+    //TODO: check for -1:ERROR string 
+    payload += mem->getSystemMemory();
+
+    //fprintf(stdout, "%s payload", payload.c_str());
     serialBridge->sendData(payload.c_str());
 
 //at this point initialization has finished and we can update data
@@ -65,7 +49,7 @@ int main() {
     while(true){
 
         payload = temp->getSensoryData();
-        payload += getMemoryInfo();
+        payload += mem->getSystemMemory();
         serialBridge->sendData(payload.c_str());
         std::this_thread::sleep_for(3500ms);
     }

@@ -13,9 +13,11 @@ namespace serial{
             SerialBridge(string);
             int openConnection(void);
             void sendData(string);
+            void setSecret(int);
 
         private:
             string deviceName;
+            int secretNum;
             fstream picoConnection;
     };
 }
