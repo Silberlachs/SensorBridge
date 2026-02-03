@@ -33,15 +33,13 @@ int main() {
     }
 
     SerialBridge* serialBridge = new SerialBridge("/dev/ttyACM0");
-    serialBridge->setSecret(1337);
-    serialBridge->openConnection();
-    serialBridge->sendData("initializing"); //implement protocoll
-    string payload = temp->getSensoryDataInit();
 
-    //TODO: check for -1:ERROR string 
-    payload += mem->getSystemMemory();
+    //setting screen values : $:CATEGORYNAME
+    string payload = "$:TEMP#";
+    payload += temp->getSensoryDataInit();  //name of entries
 
-    //fprintf(stdout, "%s payload", payload.c_str());
+    payload += "$:RAM#";
+    payload += " #&:gauge"; //unnamed entry, then special type
     serialBridge->sendData(payload.c_str());
 
 //at this point initialization has finished and we can update data

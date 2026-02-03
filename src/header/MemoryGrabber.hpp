@@ -10,7 +10,7 @@ namespace mem{
     {
         private:
             string tmp, memory;
-            void sendSystemCall();
+            void getAvailableMemory();
             string readTempFile();
 
         public:

@@ -8,14 +8,14 @@ namespace mem{
 
     string MemoryGrabber::getSystemMemory()
     {
-        this->sendSystemCall();
+        this->getAvailableMemory();
         this->readTempFile();
         return memory;
     }
 
-    void MemoryGrabber::sendSystemCall()
+    void MemoryGrabber::getAvailableMemory()
     {
-        system("cat /proc/meminfo | grep -E 'MemTotal|MemAvailable' > tmp.txt");
+        system("cat /proc/meminfo | grep -E 'MemTotal|MemAvailable' | rev | cut -f2 -d' ' | rev > tmp.txt");
     }
 
     string MemoryGrabber::readTempFile()
