@@ -55,7 +55,7 @@ namespace temp{
         string payload;
         for(int l=0; l< sensors.size(); l++)
         {
-            payload = payload + sensors[l]->getName() + "#" + to_string(sensors[l]->getTemperature()/1000) + "#";
+            payload = payload + sensors[l]->getName() + "#";
         }
         return payload;
     }
