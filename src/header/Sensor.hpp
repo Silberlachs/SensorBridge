@@ -15,7 +15,7 @@ namespace temp{
             string getPath(void);
 
         private: 
-            string name, path;
+            string name, path, heat;
             int temperature;
     };
 }

@@ -13,6 +13,11 @@ namespace serial{
         picoConnection.open("/dev/ttyACM0");
     }
 
+    SerialBridge::~SerialBridge()
+    {
+        picoConnection.close();
+    }
+
     void SerialBridge::sendData(string message)
     {
         picoConnection << message + "\n";

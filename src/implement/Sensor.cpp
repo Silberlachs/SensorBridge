@@ -1,4 +1,7 @@
 #include "../header/Sensor.hpp"
+#include <fstream>
+#include <iostream>
+#include <cstdio>
 
 using namespace std;
 
@@ -12,7 +15,11 @@ namespace temp{
 
     int Sensor::getTemperature()
     {
-        return temperature;
+        ifstream HeatFile(path + "/temp");
+        getline (HeatFile, heat);
+        HeatFile.close();
+
+        return stoi(heat);
     }
 
     string Sensor::getName()

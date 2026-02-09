@@ -11,6 +11,7 @@ namespace serial{
     {
         public:
             SerialBridge(string);
+            ~SerialBridge();
             int openConnection(void);
             void sendData(string);
             void setSecret(int);
