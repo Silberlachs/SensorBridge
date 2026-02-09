@@ -41,7 +41,7 @@ int main() {
     payload += "$:RAM#";
     payload += " #&:gauge"; //unnamed entry, then special type
     serialBridge->sendData(payload.c_str());
-
+    
 //at this point initialization has finished and we can update data
 
     while(true){
@@ -49,7 +49,7 @@ int main() {
         payload = temp->getSensoryData();
         payload += mem->getSystemMemory();
         serialBridge->sendData(payload.c_str());
-        std::this_thread::sleep_for(3500ms);
+        std::this_thread::sleep_for(2500ms);
     }
 
     free(logger);
