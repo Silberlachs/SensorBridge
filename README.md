@@ -23,3 +23,5 @@ g++ main.cpp TemperaturGrabber.cpp Logger.cpp -o ../../bin/TempGrabber
 cd ../../
 ./bin/TempGrabber
 ```
+
+The project is intended to be used in conjunction with OLED Project ( https://github.com/Silberlachs/oled/tree/main )
